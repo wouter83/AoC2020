@@ -1,20 +1,41 @@
-fn true_on_2020(x: i32, y: i32) -> bool {
+fn true_on_2020_2(x: i32, y: i32) -> bool {
     return (x + y) == 2020;
 }
 
-fn multiply_tuple(inp: (i32, i32)) -> i32 {
+fn true_on_2020_3(x: i32, y: i32, z:i32) -> bool {
+    return (x + y + z) == 2020;
+}
+
+fn multiply_tuple_2(inp: (i32, i32)) -> i32 {
     return inp.0 * inp.1;
 }
 
-fn get_2020(arr: &[i32]) -> (i32, i32) {
+fn multiply_tuple_3(inp: (i32, i32, i32)) -> i32 {
+    return inp.0 * inp.1 * inp.2;
+}
+
+fn get_2020_2(arr: &[i32]) -> (i32, i32) {
     for i in 0..arr.len() {
         for j in i..arr.len() {
-            if true_on_2020(arr[i], arr[j]) {
+            if true_on_2020_2(arr[i], arr[j]) {
                 return (arr[i], arr[j]);
             }
         }
     }
     return (0, 0);
+}
+
+fn get_2020_3(arr: &[i32]) -> (i32, i32, i32) {
+    for i in 0..arr.len() {
+        for j in i..arr.len() {
+                for k in j..arr.len(){
+                  if true_on_2020_3(arr[i], arr[j], arr[k]) {
+                    return (arr[i], arr[j], arr[k]);
+                }
+            }
+        }
+    }
+    return (0, 0, 0);
 }
 
 pub fn day1_main() {
@@ -35,22 +56,25 @@ pub fn day1_main() {
         1829, 1944, 1553, 1361, 1483, 1995, 1868, 1601, 1552, 1854, 1490, 1855, 1987, 1538, 1389,
         1454, 1427, 1686, 1456, 1974,
     ];
-    println!("Day 1.1 awnser is: {}", multiply_tuple(get_2020(&input)));
+    println!("Day 1.1 awnser is: {}", multiply_tuple_2(get_2020_2(&input)));
+    println!("Day 1.2 awnser is: {}", multiply_tuple_3(get_2020_3(&input)));
 }
 
 #[test]
 fn test_2020() {
-    assert_eq!(true_on_2020(1010, 1010), true);
-    assert_eq!(true_on_2020(1000, 1010), false);
+    assert_eq!(true_on_2020_2(1010, 1010), true);
+    assert_eq!(true_on_2020_2(1000, 1010), false);
 }
+
 #[test]
 fn test_array() {
     let input = [1721, 979, 366, 299, 675, 1456];
-    assert_eq!(get_2020(&input), (1721, 299));
+    assert_eq!(get_2020_2(&input), (1721, 299));
+    assert_eq!(get_2020_3(&input), (979, 366, 675));
 }
 
 #[test]
 fn test_multiply_tuple() {
     let tuple = (1721, 299);
-    assert_eq!(multiply_tuple(tuple), 514579);
+    assert_eq!(multiply_tuple_2(tuple), 514579);
 }
