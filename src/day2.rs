@@ -1,7 +1,3 @@
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::BufReader;
-
 fn decode_password(password: &std::string::String) -> bool {
   let values: Vec<&str> = password.split(' ').collect();
   // values[0] has the lower and upper counts
@@ -18,20 +14,17 @@ fn decode_password(password: &std::string::String) -> bool {
   return low <= count && count <= high;
 }
 
-pub fn day2_main() -> std::io::Result<()> {
+pub fn day2_main() {
   println!("day 2");
+  let mut valid = 0;
 
-  let f = File::open("..\\..\\input\\day2.txt")?;
-  let f = BufReader::new(f);
-  let valid = 0;
-  for line in f.lines() {
-    if decode_password(&line.unwrap()) {
-      let valid = valid + 1;
+  let lines = generic::lines_from_file("input/day2.txt");
+  for line in lines {
+    if decode_password(&line){
+        valid = valid + 1;
     }
   }
   println!("Day 2.1 awnser is: {}", valid);
-
-  Ok(())
 }
 
 #[test]

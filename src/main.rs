@@ -6,7 +6,6 @@ mod day2;
 fn main() {
     println!("Hello, world!");
     day1::day1_main();
-
-    let result = day2::day2_main();
+    day2::day2_main();
     
 }
