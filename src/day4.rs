@@ -1,12 +1,22 @@
+trait Day4_trait {
+   fn is_valid(&self) -> bool;
+}
+
+#[derive(Default)]
+struct Height {
+  number: u16,
+  metric: String,
+}
+
 #[derive(Default)]
 struct Passport {
-  byr: String,
-  iyr: String,
-  eyr: String,
-  hgt: String,
+  byr: u16,
+  iyr: u16,
+  eyr: u16,
+  hgt: Height,
   hcl: String,
   ecl: String,
-  pid: String,
+  pid: u32,
   cid: String,
 }
 
@@ -18,18 +28,43 @@ impl Passport {
       for val in values {
         let key_val: Vec<&str> = val.split(':').collect();
         match key_val[0] {
-          "byr" => ret.byr = key_val[1].to_string(),
-          "iyr" => ret.iyr = key_val[1].to_string(),
-          "eyr" => ret.eyr = key_val[1].to_string(),
-          "hgt" => ret.hgt = key_val[1].to_string(),
+          "byr" => ret.byr = key_val[1].to_string().parse::<u16>().unwrap(),
+          "iyr" => ret.iyr = key_val[1].to_string().parse::<u16>().unwrap(),
+          "eyr" => ret.eyr = key_val[1].to_string().parse::<u16>().unwrap(),
+          "hgt" => {
+            let mut number_string: String = String::new();
+            let mut metric_string: String = String::new();
+            for c in key_val[1].to_string().chars() {
+              if c.is_digit(10) {
+                number_string.push(c);
+              } else {
+                metric_string.push(c);
+              }
+            }
+            ret.hgt.metric = metric_string;
+            ret.hgt.number = number_string.parse::<u16>().unwrap();
+          }
           "hcl" => {
-            //let temp = key_val[1].find('#');
-            //if temp == Some(0) {
-            ret.hcl = key_val[1].to_string();
-            //}
+            let temp = key_val[1].find('#');
+            if temp == Some(0) {
+              let byte_array = key_val[1].as_bytes();
+              let mut add = true;
+              for i in 1..=6 {
+                add |= byte_array[i].is_ascii_digit();
+              }
+              ret.hcl = if add {
+                key_val[1].to_string()
+              } else {
+                "".to_string()
+              };
+            }
           }
           "ecl" => ret.ecl = key_val[1].to_string(),
-          "pid" => ret.pid = key_val[1].to_string(),
+          "pid" => {
+            if key_val[1].to_string().len() <= 10 {
+              ret.pid = key_val[1].to_string().parse::<u32>().unwrap();
+            }
+          }
           "cid" => ret.cid = key_val[1].to_string(),
           _ => println!("Ain't special"),
         }
@@ -42,7 +77,7 @@ impl Passport {
     println!("byr: {}", self.byr);
     println!("iyr: {}", self.iyr);
     println!("eyr: {}", self.eyr);
-    println!("hgt: {}", self.hgt);
+    println!("hgt: {}{}", self.hgt.number, self.hgt.metric);
     println!("hcl: {}", self.hcl);
     println!("ecl: {}", self.ecl);
     println!("pid: {}", self.pid);
@@ -51,13 +86,15 @@ impl Passport {
   }
 
   fn is_valid(&self) -> bool {
-    self.byr.len() > 0
-      && self.iyr.len() > 0
-      && self.eyr.len() > 0
-      && self.hgt.len() > 0
-      && self.hcl.len() > 0
-      && self.ecl.len() > 0
-      && self.pid.len() > 0
+    (self.byr >= 1920 && self.byr <= 2002)
+      && (self.iyr >= 2010 && self.iyr <= 2020)
+      && (self.eyr >= 2010 && self.eyr <= 2030)
+      && (
+        if self.hgt.metric ==
+        self.hgt.number > 0)
+      && (self.hcl.len() > 0)
+      && (self.ecl.len() > 0)
+      && (self.pid > 0)
   }
 }
 
