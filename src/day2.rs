@@ -1,4 +1,4 @@
-fn decode_password_wrong(password: &std::string::String) -> bool {
+fn decode_password_wrong(password: &str) -> bool {
  let values: Vec<&str> = password.split(' ').collect();
  // values[0] has the lower and upper counts
  // values[1] has the char + ':'
@@ -14,7 +14,7 @@ fn decode_password_wrong(password: &std::string::String) -> bool {
  return low <= count && count <= high;
 }
  
-fn decode_password(password: &std::string::String) -> bool {
+fn decode_password(password: &str) -> bool {
  let values: Vec<&str> = password.split(' ').collect();
  // values[0] has the lower and upper counts
  // values[1] has the char + ':'

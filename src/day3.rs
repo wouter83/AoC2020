@@ -1,4 +1,4 @@
-fn has_tree(line: &std::string::String, pos:usize) -> bool
+fn has_tree(line: &str, pos:usize) -> bool
 {
   let tree = line.chars().nth(pos).unwrap();
   return tree == '#';
