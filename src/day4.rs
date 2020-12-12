@@ -210,18 +210,15 @@ fn test_day4_passport_strict_invalid() {
     "hgt:59cm ecl:zzz".to_string(),
     "eyr:2038 hcl:74454a iyr:2023".to_string(),
     "pid:3556412378 byr:2007".to_string(),
-    "".to_string(),
-    "iyr:2010 hgt:76in hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719".to_string(),
   ];
 
   let passp = parse_passports(&input);
-  assert_eq!(passp.len(), 5);
+  assert_eq!(passp.len(), 4);
 
   assert_eq!(passp[0].is_valid(), false);
   assert_eq!(passp[1].is_valid(), false);
   assert_eq!(passp[2].is_valid(), false);
   assert_eq!(passp[3].is_valid(), false);
-  assert_eq!(passp[4].is_valid(), false);
 }
 
 #[test]
